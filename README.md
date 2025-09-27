@@ -24,8 +24,14 @@ Done. En vrai simple, non ?
 
 ## Détails de l'implémentation
 ### Client
-#### Connexion `/`
-La page `/login` permet de se connecter en scannant sa carte scolaire. Elle redirige vers `/app` si l'utilisateur est connecté.
+#### Connexion `/login`
+La page `/login` permet de se connecter, soit en tant que \<Prof de maths>, soit en tant qu'élève.
+
+En tant que \<Prof de maths>, on atterit dans `/login/admin`.
+
+En tant qu'élève, on se connecte en scannant sa carte scolaire dans `/scanner/login`.
+
+Redirige vers `/app` si l'utilisateur est connecté.
 
 #### Racine `/`
 La racine `/` redirige vers `/login` si l'utilisateur n'est pas connecté. S'il est connecté, c'est un écran d'accueil contenant (de haut en bas) :
@@ -51,5 +57,88 @@ La carte d'un livre doit afficher (on s'inspire de Paperless-ngx sur lequel j'ai
   - auteur
   - date
 
-Elle change de couleur et affiche une icône avec un prénom si le livre a été emprunté
+Elle change de couleur et affiche une icône avec un prénom si le livre a été emprunté.
 
+Cliquer sur une carte redirige vers `/book/<isbn>`.
+
+**Si des livres sont en cours d'emprunt par l'étudiant actuel, les afficher en premier et les mettre en valeur**
+
+##### Réserver (code-barre)
+Redirige vers la page `/scanner/borrow` afin de scanner le code barre du livre.
+
+##### Ajouter (code-barre)
+Redirige vers la page `/scanner/add` afin d'ajouter un livre.
+
+#### Recherche
+// maybe one day
+
+#### Scanner `/scanner/`
+Trois pages très similaires qui permettent de scanner un code barre.
+- `/scanner/login` permet de se connecter avec une carte étudiante
+- `/scanner/add` permet d'ajouter un livre en scannant son ISBN
+- `/scanner/borrow` permet d'emprunter un livre
+
+#### Livre `/book/<isbn>`
+Affiche les informations et la liste des emprunts pour un livre.
+**On ne fera pas de distinctions entre deux exemplaires d'un livre.**
+(plus précisément, le système sait le nombre d'exemplaires disponibles, mais se contrefiche de savoir quel exemplaire a été emprunté exactement).
+
+### Serveur
+#### Base de données
+##### SGBD utilisé
+On utilise SQLite pour la base de données, car il y a peu de livres et peu d'étudiants.
+
+##### Tables
+###### (E/A)
+On détermine les tables en utilisant le modèle entités/associations (bonjour le cours d'info en sup sur le SQL !)
+
+On a les entités suivantes :
+- livre :
+  - ISBN
+  - titre
+  - date
+
+- auteur :
+  - nom
+  - prénom
+
+- étudiant :
+  - ID carte
+  - Nom
+  - Prénom
+
+Et les associations suivantes :
+- auteur < écrit > livre
+  - auteur : (0, *)
+  - livre : (1, *)
+- étudiant < emprunte > livre
+  - étudiant : (0, *) (on part du principe qu'emprunter plusieurs livres n'est pas exclus)
+  - livre : (0, *) (un livre peut être emprunté plusieurs fois)
+
+##### Donc les tables...
+- livre
+  - isbn (primary)
+  - titre
+  - date
+
+- auteur
+  - ID (primary, auto-increment)
+  - nom
+  - prénom
+
+- étudiant
+  - id_carte (primary)
+  - nom
+  - prénom
+
+- écrit
+  - ID (primary, auto-increment)
+  - id_auteur -> auteur.id
+  - isbn_livre -> livre.isbn
+
+- emprunt
+  - ID (primary, auto-increment)
+  - id_etudiant -> étudiant.id_carte
+  - isbn -> livre.isbn
+  - début (date)
+  - fin (date)
