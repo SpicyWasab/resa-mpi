@@ -7,9 +7,8 @@
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
-
 <div id="main-wrapper">
-	<header>
+	<header data-sveltekit-reload>
 		<h2><a href="/">Résa MPI</a></h2>
 		{#if data.loggedIn}
 			<span>{ data.firstname } { data.lastname[0] }.</span>

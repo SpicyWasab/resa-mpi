@@ -15,10 +15,6 @@ export const load = ({ cookies }) => {
         const borrowed = borrowedAmount > 0;
         const borrowedByMe = borrows.find(bor => bor.book_isbn == b.isbn && bor.student_id == studentId) != undefined;
 
-        console.log("available", available);
-
-        console.log("borrowed", borrowedAmount);
-
         return { isbn: b.isbn, title: b.title, cover: b.cover_url, borrowedByMe, available, borrowed }
     }) };
 }

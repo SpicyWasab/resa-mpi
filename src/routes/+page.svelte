@@ -37,7 +37,7 @@
 
 <style>
     #home-view {
-        height: 100%;
+        height: calc(100vh - 56px - 2em);
         display: grid;
         grid-template-rows: 56px auto 56px;
         gap: 1em;
@@ -66,8 +66,8 @@
     #books {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-auto-rows: min-content;
         gap: 1em;
+        overflow: scroll;
     }
 
     .book-card {

@@ -7,7 +7,7 @@
 <form method="POST">
     <label>
         ISBN livre :
-        <input name="isbn" type="text" bind:value={$scanResult}>
+        <input name="isbn" type="text" bind:value={$scanResult} placeholder="Code-barre / ISBN au dos du livre">
     </label>
     <button>{buttonLabel}</button>
 </form>

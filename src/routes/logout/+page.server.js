@@ -5,5 +5,5 @@ export function load({ cookies }) {
     cookies.delete("FIRSTNAME", { path: '/' });
     cookies.delete("LASTNAME", { path: '/' });
 
-    redirect(303, '/login');
+    return redirect(303, '/login');
 }

@@ -39,7 +39,7 @@
                     <input hidden name="isbn" value={isbn}>
                     <button disabled={data.currentBorrowers.length == quantity}>Emprunter 
                         {#if quantity > 1}
-                            ({data.currentBorrowers.length}/{quantity}) dispo{(data.currentBorrowers.length == quantity - 1) ? '' : 's'}
+                            ({quantity - data.currentBorrowers.length}/{quantity}) dispo{(data.currentBorrowers.length == quantity - 1) ? '' : 's'}
                         {/if}
                     </button>
                 </form>
