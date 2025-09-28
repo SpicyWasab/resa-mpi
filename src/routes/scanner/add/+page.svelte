@@ -1,13 +1,15 @@
 <script>
     import { scanResult } from "../store";
+
+    let buttonLabel = $derived($scanResult?.length != 13 ? "Ajouter manuellement" : "Récupérer infos");
 </script>
 
-<form action="POST">
+<form method="POST">
     <label>
         ISBN livre :
-        <input type="text" bind:value={$scanResult}>
+        <input name="isbn" type="text" bind:value={$scanResult}>
     </label>
-    <button>Ajouter livre</button>
+    <button>{buttonLabel}</button>
 </form>
 
 <style>

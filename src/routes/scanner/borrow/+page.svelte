@@ -2,10 +2,10 @@
     import { scanResult } from "../store";
 </script>
 
-<form action="POST">
+<form method="POST">
     <label>
         ISBN livre :
-        <input type="text" bind:value={$scanResult}>
+        <input name="isbn" type="text" bind:value={$scanResult}>
     </label>
     <button>Emprunter le livre</button>
 </form>

@@ -1,7 +1,7 @@
 <script>
 	import favicon from '$lib/assets/favicon.svg';
 
-	let { children } = $props();
+	let { data, children } = $props();
 </script>
 
 <svelte:head>
@@ -10,7 +10,13 @@
 
 <div id="main-wrapper">
 	<header>
-		<h2>Résa MPI</h2>
+		<h2><a href="/">Résa MPI</a></h2>
+		{#if data.loggedIn}
+			<span>{ data.firstname } { data.lastname[0] }.</span>
+			<a href="/logout">
+				Logout
+			</a>
+		{/if}
 	</header>
 	<main>
 		{@render children?.()}
@@ -28,6 +34,10 @@
 	header {
 		color: white;
 		font-weight: bold;
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		line-height: 1.25em;
 	}
 
 	main {
@@ -42,5 +52,13 @@
 	h2 {
 		padding: 0;
 		margin: 0;
+	}
+
+	h2 a {
+		color: white;
+	}
+
+	a {
+		color: black;
 	}
 </style>

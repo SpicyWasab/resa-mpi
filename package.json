@@ -17,6 +17,7 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
-		"barcode-detector": "^3.0.5"
+		"barcode-detector": "^3.0.5",
+		"better-sqlite3": "^12.4.1"
 	}
 }

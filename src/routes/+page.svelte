@@ -1,77 +1,114 @@
 <script>
-    import { BarcodeDetector } from "barcode-detector/ponyfill";
+    let filter = $state("all");
 
-    let video = undefined;
-    let canvas = undefined;
-    let img = undefined;
+    let { data } = $props();
 
-    let stream = undefined;
-
-    let code = "no code for now";
-
-    async function scan(e) {
-        stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-                facingMode: "environment"
-            }
-        });
-
-        video.srcObject = stream;
-        video.play();
-    }
-
-    async function pic(e) {
-        const context = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-    
-        // Draw the current video frame to the canvas
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    }
-
-    async function barcode(e) {
-        // check supported formats
-        const supportedFormats = await BarcodeDetector.getSupportedFormats();
-
-        console.log(supportedFormats);
-
-        const barcodeDetector = new BarcodeDetector({
-            // make sure the formats are supported
-            formats: ["any"],
-        });
-
-        // const imageFile = await fetch(
-        //     "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Hello%20world!",
-        // ).then((resp) => resp.blob());
-
-        const imageFile = await new Promise((resolve, reject) => {
-                canvas.toBlob((blob) => {
-                    resolve(blob);
-                },
-                "image/jpeg",
-                0.95)
-            }
-        );
-
-        img.src = URL.createObjectURL(imageFile);
-
-        console.log(imageFile);
-
-        setInterval(() => {
-            barcodeDetector.detect(video).then(e => { code = (code == "running" || code == "no code for now") ? e[0]?.rawValue ?? "running" : code }, 10);
-        });
+    function filtering(book) {
+        if(filter == 'borrowed') return book.borrowed;
+        else if(filter == 'available') return book.available;
+        else if(filter == 'borrowed-by-me') return book.borrowedByMe;
+        else return true;
     }
 </script>
 
-<button on:click={scan}>Scanner</button>
+<div id="home-view">
+    <select name="filter-borrowed" bind:value={filter}>
+        <option value="all">Tous les livres</option>
+        <option value="available">Disponibles</option>
+        <option value="borrowed">Empruntés</option>
+        <option value="borrowed-by-me">Empruntés par moi</option>
+    </select>
+    <div id="books">
+        {#each data.books.filter(filtering) as book}
+            <a href="/book/{book.isbn}" class="book-card">
+                <img src={book.cover} alt="couverture du {book.title}">
+                <div class="cover-filter"></div>
+                <div class="book-data">
+                    <span class="title">{book.title}</span>
+                </div>
+            </a>
+        {/each}
+    </div>
+    <div id="actions">
+        <a href="/scanner/add">Ajouter</a>
+        <a href="/scanner/borrow">Emprunter</a>
+    </div>
+</div>
 
-<button on:click={pic}>Photo</button>
+<style>
+    #home-view {
+        height: 100%;
+        display: grid;
+        grid-template-rows: 56px auto 56px;
+        gap: 1em;
+    }
 
-<button on:click={barcode}>Code barre</button>
+    #actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+    }
 
-<div>{code}</div>
+    a {
+        text-decoration: none;
+    }
 
-<img bind:this={img}>
+    a:not(.book-card) {
+        background: orange;
+        border: none;
+        border-radius: 25px;
+        color: white;
+        padding: 1em;
+        text-align: center;
+        line-height: 1.5em;
+    }
 
-<video bind:this={video}></video>
-<canvas bind:this={canvas}></canvas>
+    #books {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: min-content;
+        gap: 1em;
+    }
+
+    .book-card {
+        display: grid;
+        grid-template: "container";
+        place-items: center;
+        place-content: center;
+        border: 1px solid darkslategray;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 220px;
+    }
+
+    img {
+        width: 100%;
+        grid-area: container;
+        overflow: hidden;
+    }
+
+    .cover-filter {
+        grid-area: container;
+        place-self: start center;
+        
+        background-image: linear-gradient(transparent 20%, darkslategray 90%);
+        width: 100%;
+        height: calc(250px - 2.5em);
+    }
+
+    .book-data {
+        grid-area: container;
+        place-self: end center;
+        background-color: darkslategray;
+        color: white;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        height: 4em;
+        width: 100%;
+    }
+
+    .title {
+        margin: 10px;
+    }
+</style>

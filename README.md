@@ -12,13 +12,14 @@ Done. En vrai simple, non ?
 
 ## Features
 ### Essentielles
-- [ ] Pouvoir se connecter en scannant sa carte scolaire
-- [ ] Pouvoir ajouter un livre à la liste grâce au code-barre
+- [x] Pouvoir se connecter en scannant sa carte scolaire
+- [x] Pouvoir ajouter un livre à la liste grâce au code-barre
     - les données des livres sont récupérées grâce à l'ISBN sur le code-barre depuis une API gratuite
-- [ ] Pouvoir ajouter un livre à la liste en entrant manuellement les données
-- [ ] Pouvoir voir la liste des livres
-- [ ] Pouvoir réserver le dit livre
-- [ ] Pouvoir voir les livres déjà réservés
+- [x] Pouvoir ajouter un livre à la liste en entrant manuellement les données
+- [x] Pouvoir voir la liste des livres
+- [x] Pouvoir réserver le dit livre
+- [x] Pouvoir rendre le dit livre
+- [x] Pouvoir voir les livres déjà réservés
 
 ### Non essentielles mais sympa
 
@@ -121,20 +122,10 @@ Et les associations suivantes :
   - titre
   - date
 
-- auteur
-  - ID (primary, auto-increment)
-  - nom
-  - prénom
-
 - étudiant
   - id_carte (primary)
   - nom
   - prénom
-
-- écrit
-  - ID (primary, auto-increment)
-  - id_auteur -> auteur.id
-  - isbn_livre -> livre.isbn
 
 - emprunt
   - ID (primary, auto-increment)

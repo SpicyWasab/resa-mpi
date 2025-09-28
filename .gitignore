@@ -1,5 +1,9 @@
 node_modules
 
+*MPI*
+*.db*
+*open4goods-isbn*
+
 # Output
 .output
 .vercel

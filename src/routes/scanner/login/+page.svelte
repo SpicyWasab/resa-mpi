@@ -2,10 +2,10 @@
     import { scanResult } from "../store";
 </script>
 
-<form action="POST">
+<form method="POST" action="/login">
     <label>
         Identifiant :
-        <input type="text" bind:value={$scanResult}>
+        <input name="id" type="text" bind:value={$scanResult} placeholder="code-barre à l'arrière de la carte du lycée">
     </label>
     <button>Se connecter</button>
 </form>

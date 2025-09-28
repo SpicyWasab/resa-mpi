@@ -1,14 +1,10 @@
 <div id="admin-login-view">
     <h1>Connexion (pas de carte)</h1>
 
-    <form action="POST">
+    <form method="POST" action="/login/?">
         <label>
             Identifiant
             <input name="id" type="text">
-        </label>
-        <label>
-            Password
-            <input name="pass" type="text">
         </label>
         <button>Se connecter</button>
     </form>

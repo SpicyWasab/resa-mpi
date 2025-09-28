@@ -27,6 +27,9 @@
             // make sure the formats are supported
             formats: supportedFormats,
         });
+
+        // on lance un scan au chargement de la page
+        scan();
     });
 
     onDestroy(() => {
@@ -38,7 +41,7 @@
         intervalId = setInterval(() => {
             barcodeDetector.detect(videoElement).then(e => {
                 if(e.length != 0) {
-                    buttonText = "Relancer"
+                    buttonText = "Relancer le scan"
                     $scanResult = e[0].rawValue;
                     clearInterval(intervalId);
                 }
@@ -65,16 +68,26 @@
         display: grid;
         grid-template-rows: 3fr 1fr;
         height: 100%;
+        gap: 2em;
     }
 
     #scanner {
         display: grid;
-
+        grid-template-rows: auto min-content;
+        gap: 1em;
     }
 
     video {
         width: 100%;
         height: 100%;
         background-color: black;
+    }
+
+    button {
+        background: orange;
+        border: none;
+        border-radius: 25px;
+        padding: 1em;
+        color: white;
     }
 </style>
