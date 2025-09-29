@@ -27,14 +27,17 @@ export const actions = {
         const bookData = isbnDb.prepare("SELECT * FROM books WHERE isbn = ?").get(isbn);
         delete 'url' in bookData;
 
-        const res = await fetch(`https://bookcover.longitood.com/bookcover/${isbn}`);
-        const coverURL = (await res.json()).url;
-
         const params = new URLSearchParams(bookData);
-        params.set('cover', coverURL);
-        
-        redirect(303, '/book/add?' + params.toString());
 
-        return { success: true };
+        try {
+            const res = await fetch(`https://bookcover.longitood.com/bookcover/${isbn}`);
+            const coverURL = (await res.json()).url;
+            if(!coverURL) throw new Error("No cover available for book " + isbn);
+            params.set('cover', coverURL);
+        } catch(error) {
+            console.error(error);
+        }
+        
+        return redirect(303, '/book/add?' + params.toString());
     }
 };

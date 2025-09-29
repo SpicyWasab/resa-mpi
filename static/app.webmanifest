@@ -1,0 +1,20 @@
+{
+  "short_name": "Résa MPI",
+  "name": "Réservation livres",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "orange",
+  "background_color": "orange"
+}
