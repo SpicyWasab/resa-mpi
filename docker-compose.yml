@@ -8,7 +8,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    user: "node"
+    user: "root"
     environment:
       # Internal server error messages will not send stacktrace to the browser in production
       - NODE_ENV=production
@@ -21,4 +21,4 @@ services:
     ports:
       - 4173:4173
     volumes:
-      - ./databases:/app/databases
+      - /srv/resa-mpi/databases:/app/databases
