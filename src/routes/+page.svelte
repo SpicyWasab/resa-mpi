@@ -37,7 +37,7 @@
 
 <style>
     #home-view {
-        height: calc(100vh - 56px - 2em);
+        height: calc(100vh - 56px - 2em - env(safe-area-inset-bottom, 0) - env(safe-area-inset-top, 0));
         display: grid;
         grid-template-rows: 56px auto 56px;
         gap: 1em;
